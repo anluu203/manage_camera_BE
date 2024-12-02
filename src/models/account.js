@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      account.belongsToMany(models.roles, { through: 'account_roles' });
+      account.belongsTo(models.group);
     }
   }
   account.init({
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     phone: DataTypes.STRING,
     description: DataTypes.STRING,
-    role: DataTypes.INTEGER,
+    groupId: DataTypes.INTEGER,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {

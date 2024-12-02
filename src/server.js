@@ -1,8 +1,7 @@
 require("dotenv").config()
 import express from "express"
 import conFigViewEngine from "./config/viewEng";
-import initWebRouters from "./routes/web";
-import initApiRouters from "./routes/api";
+import initApiRouters from "./routes/api/api";
 import bodyParser from "body-parser";
 import cors from 'cors'
 
@@ -34,8 +33,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 //test connection
 // connection();
 
-//init web router
-initWebRouters(app)
+//init api router
 initApiRouters(app)
 
 

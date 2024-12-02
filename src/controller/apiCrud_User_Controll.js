@@ -1,4 +1,4 @@
-import apiUserService from '../service/apiUserService'
+import apiCrud_User_Service from '../service/apiCrud_User_Service'
 
 
 const handleGetUser = async (req, res) =>{
@@ -7,7 +7,7 @@ const handleGetUser = async (req, res) =>{
                 let page = req.query.page;
                 let results = req.query.results;
 
-                let data = await apiUserService.getUserWithPagination(+page, +results)
+                let data = await apiCrud_User_Service.getUserWithPagination(+page, +results)
                 return res.status(200).json({
                     EM: data.EM,
                     EC: data.EC,
@@ -33,7 +33,7 @@ const handleUpdateUser = (req, res) =>{
 
 const handleDeleteUser = async (req, res) =>{
     try {
-        let data = await apiUserService.deleteUser(req.body.id)
+        let data = await apiCrud_User_Service.deleteUser(req.body.id)
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

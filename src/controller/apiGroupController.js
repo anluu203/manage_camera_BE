@@ -1,7 +1,7 @@
-import apiPositionService from '../service/apiPositionService'
+import apiGroupService from '../service/apiGroupService'
 const readPosition = async (req, res) =>{
     try {
-        let data = await apiPositionService.handleReadPosition(req)
+        let data = await apiGroupService.handleReadPosition(req)
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

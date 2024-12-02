@@ -1,7 +1,7 @@
 import  express  from "express";
-import apiController from '../controller/apiController'
-import apiUserController from '../controller/apiUserController'
-import apiPositionController from '../controller/apiPositionController'
+import apiController from '../../controller/apiController'
+import apiCrud_User_Controll from '../../controller/apiCrud_User_Controll'
+import apiGroupController from '../../controller/apiGroupController'
 const router = express.Router();
 
 /**
@@ -19,12 +19,12 @@ const router = express.Router();
     router.post("/login", apiController.handleLogin)
     
     //api thêm sửa xóa người dùng
-    router.get("/user/getAllUser", apiUserController.handleGetUser)
-    router.delete("/user/delete",apiUserController.handleDeleteUser)
+    router.get("/user/getAllUser", apiCrud_User_Controll.handleGetUser)
+    router.delete("/user/delete",apiCrud_User_Controll.handleDeleteUser)
 
     
     //api lấy dữ liệu của position table
-    router.get("/position/read", apiPositionController.readPosition)
+    router.get("/position/read", apiGroupController.readPosition)
 
     return app.use("/api/v1/", router);
 

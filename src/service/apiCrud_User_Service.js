@@ -11,10 +11,11 @@ import { where } from "sequelize";
 
 const getAllUser = async () =>{
     try {
-        let users = await db.User.findAll({
+        let users = await db.account.findAll({
             attributes: ["id", "email", "username", "sex", "phone"],
-            include:{model: db.position, attributes:["name","description"]}
+            include:{model: db.group, attributes:["name","description"]}
         })
+
         if (users) {
             return{
                 EM: 'Get data successfully',
@@ -40,11 +41,12 @@ const getAllUser = async () =>{
 const getUserWithPagination = async (page, results) =>{
     try {
         let offset = (page - 1) * results; // offset là vị trí page đang hiển thị DL
-        let { count, rows } = await db.User.findAndCountAll({
+        let { count, rows } = await db.account.findAndCountAll({
             offset: offset,
             limit: results,
-            attributes: ["id", "email", "username", "sex", "phone"],
-            include:{model: db.position, attributes:["name","description"]}
+            attributes: ["id", "email", "username", "phone"],
+            include:{model: db.group, attributes:["id","name","description"]},
+            order: [['id', 'DESC']]
           });
         
         let totalPages =  Math.ceil(count/results) 
