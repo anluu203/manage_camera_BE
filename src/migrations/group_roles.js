@@ -15,6 +15,12 @@ module.exports = {
       roles_id: {
         type: Sequelize.INTEGER
       },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
     });
   },
   async down(queryInterface, Sequelize) {

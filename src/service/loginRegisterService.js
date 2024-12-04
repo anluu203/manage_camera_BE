@@ -1,8 +1,8 @@
 const { Op } = require('sequelize');
 import bcrypt from 'bcrypt';
 import db from '../models/index'
-
-
+import {getGroupWithRole} from '../service/jwtService'
+import {createJwt} from "../middleware/jwtAction"
 const salt = bcrypt.genSaltSync(10);
 const hashUserPassWord = (userPassWord) => {
     let hashPassWordCheck = bcrypt.hashSync(userPassWord, salt);
@@ -105,10 +105,23 @@ const CheckLogin = async (rawUserData) => {
         if (user) {
             let isCorrectPassword = checkPassword(rawUserData.valuePassword, user.password);
             if (isCorrectPassword) {
+                let groupWithRoles = await getGroupWithRole(user);
+                let payload = {
+                 email: user.email,
+                 phone: user.phone,
+                 groupWithRoles,
+                 username: user.username
+                }
+                let token = createJwt(payload)
                 return {
                     EM: `Login successfully`,
                     EC: 0,
-                    DT: ''
+                    DT: {
+                        access_token: token,
+                        groupWithRoles,
+                        email: user.email,
+                        username: user.username
+                    }
                 };
             }
         }

@@ -4,7 +4,7 @@ import conFigViewEngine from "./config/viewEng";
 import initApiRouters from "./routes/api/api";
 import bodyParser from "body-parser";
 import cors from 'cors'
-
+import cookieParser from "cookie-parser";
 
 
 // import connection from "./config/connectDB";
@@ -18,7 +18,8 @@ conFigViewEngine(app);
 
 // Cấu hình CORS để chấp nhận yêu cầu từ localhost:3000
 app.use(cors({
-    origin: process.env.REACT_URL || 'http://localhost:3000'
+    origin: process.env.REACT_URL || 'http://localhost:3000',
+    credentials: true, // Cho phép gửi cookie, token qua CORS
 }));
 
 
@@ -30,8 +31,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 
-//test connection
-// connection();
+//Cấu hình cookies trong app Nodejs
+app.use(cookieParser())
 
 //init api router
 initApiRouters(app)

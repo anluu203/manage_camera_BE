@@ -23,7 +23,13 @@ module.exports = {
       },
       imageID: {
         type: Sequelize.INTEGER
-      }
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
     });
   },
   async down(queryInterface, Sequelize) {

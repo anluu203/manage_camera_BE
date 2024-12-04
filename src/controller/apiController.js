@@ -16,6 +16,7 @@ const handleRegister = async (req, res) => {
            })
         }
         let data = await loginRegisterService.RegisterNewUser(req.body)
+
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -40,6 +41,9 @@ const handleLogin = async (req, res) => {
             })
         }
         let data = await loginRegisterService.CheckLogin(req.body)
+        if(data && data.DT && data.DT.access_token){
+            res.cookie('jwt', data.DT.access_token, {httpOnly: true, maxAge:60*60*1000} );
+            }
             return res.status(200).json({
                 EM: data.EM,
                 EC: data.EC,
@@ -54,6 +58,29 @@ const handleLogin = async (req, res) => {
     }
 }
 
+const getUserAccount= async (req, res) =>{
+    return res.status(200).json({
+        EM: 'Get account successfully',
+        EC: 0,
+        DT: {
+            access_token: req.token,
+            groupWithRoles: req.user.groupWithRoles,
+            email: req.user.email,
+            username: req.user.username
+        }
+})
+}
+
+const handleLogout =  (req, res) =>{
+    res.clearCookie('jwt',{
+        path: '/'
+      })
+    return res.status(200).json({
+        EM: 'Logout successfully',
+        EC: 0,
+        DT: ''
+})
+}
 module.exports = {
-    testApi, handleRegister, handleLogin
+    testApi, handleRegister, handleLogin, getUserAccount, handleLogout
 }

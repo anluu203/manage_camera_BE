@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       group.hasMany(models.account);
-      group.belongsToMany(models.roles, { through: 'group_roles' });
+      group.belongsToMany(models.roles, { through: 'group_roles', foreignKey: "group_id", 
+        otherKey: "roles_id" });
     }
   }
   group.init({

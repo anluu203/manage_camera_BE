@@ -1,13 +1,34 @@
 import bcrypt from "bcrypt";
 import db from "../models/index";
-import { where } from "sequelize";
 
 // mã hóa password
-// const salt = bcrypt.genSaltSync(10);
-// const hashPassWord = (userPassWord) => {
-//   let hashPassWordCheck = bcrypt.hashSync(userPassWord, salt);
-//   return hashPassWordCheck;
-// };
+const salt = bcrypt.genSaltSync(10);
+const hashUserPassWord = (userPassWord) => {
+  let hashPassWordCheck = bcrypt.hashSync(userPassWord, salt);
+  return hashPassWordCheck;
+};
+// this func checks if email already exist  
+ const checkEmailExist = async (userEmail) =>{
+    let user = await db.account.findOne({ 
+        where: { 
+            email:userEmail 
+        } });
+    if (user) {
+        return true
+    }
+    return false    
+}
+
+ const checkPhoneExist = async (userPhone) =>{
+    let user = await db.account.findOne({ 
+        where: { 
+            phone:userPhone
+        } });
+    if (user) {
+        return true
+    }
+    return false    
+}
 
 const getAllUser = async () =>{
     try {
@@ -75,9 +96,48 @@ const getUserWithPagination = async (page, results) =>{
     }
 }
 
+
+
+
 const createUser = async (data) => {
     try {
-        
+         //check email, phone are existed
+         let isExistEmail = await checkEmailExist(data.email)
+         if (isExistEmail === true) {
+             return {
+                 EM:'This email is already exist',
+                 EC: 1
+             }
+         }
+     
+         let isExistPhone = await checkPhoneExist(data.phone)
+         if (isExistPhone === true) {
+             return {
+                 EM:'This phone number is already exist',
+                 EC: 1
+             }
+         }
+         if (data.password < 4) {
+             return {
+                 EM:'Password must be longer than 3 characters',
+                 EC: 1
+             }
+         }
+         //hash password
+         let hashPassWord = hashUserPassWord(data.password)
+         //create newUser
+          await db.account.create({
+             email: data.email, 
+             password: hashPassWord, 
+             username: data.username,
+             phone: data.phone,
+             groupId: data.groupId
+         });
+     
+         return{
+             EM:'User is created successfully',
+             EC: 0
+         }        
     } catch (error) {
         console.log('Error: ',error)
         return{
@@ -92,15 +152,33 @@ const createUser = async (data) => {
 
 const updateUser = async (data) =>{
     try {
-        let user = await db.User.findOne({
+        let user = await db.account.findOne({
             where:{id: data.id}
             
         })
-        if (user) {
-               // update 
-            } else {
-                // not found
-            }
+        if (!user) {
+            console.error('User not found with ID: ', data.id);
+            return {
+                EM: 'User not found',
+                EC: 1,
+                DT: null,
+            };
+        }
+    
+        // Cập nhật user
+        await db.account.update(
+            {
+                username: data.username,
+                groupId: data.groupId,
+            },
+            { where: { id: data.id } }
+        );
+    
+        return {
+            EM: 'User updated successfully',
+            EC: 0,
+            DT: data,
+        };
     } catch (error) {
         console.log('Error: ',error)
         return{
@@ -112,7 +190,7 @@ const updateUser = async (data) =>{
 }
 const deleteUser = async (id) =>{
     try {
-        let user = await db.User.findOne({
+        let user = await db.account.findOne({
             where:{
               id: id,
             }

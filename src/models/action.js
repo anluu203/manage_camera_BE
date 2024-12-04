@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   action.init({
     name: DataTypes.STRING,
-
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'action',

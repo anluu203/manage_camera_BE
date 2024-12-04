@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     description: DataTypes.STRING,
     roomID: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'camera',

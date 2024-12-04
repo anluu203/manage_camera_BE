@@ -1,19 +1,19 @@
 import db from "../models"
 
-const handleReadPosition = async () => {
+const handleGetGroup = async () => {
     try {
-        let position = await db.position.findAll({
-            order: [['name', 'ASC']]
+        let group = await db.group.findAll({
+            order: [['id', 'DESC']]
         })
-        if (position) {
+        if (group) {
             return{
                 EM: 'Get data successfully',
                 EC: 0,
-                DT: position
+                DT: group
             }
         } else {
             return{
-                EM: 'Data in position table is empty',
+                EM: 'Data in group table is empty',
                 EC: 0,
                 DT: []
             }
@@ -28,6 +28,4 @@ const handleReadPosition = async () => {
     }
 }
 
-module.exports = {
-    handleReadPosition
-}
+module.exports = {handleGetGroup}

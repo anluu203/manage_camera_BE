@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     actionID: DataTypes.INTEGER,
     imageID: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'event',

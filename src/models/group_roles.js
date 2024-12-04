@@ -16,9 +16,12 @@ module.exports = (sequelize, DataTypes) => {
   group_roles.init({
     group_id: DataTypes.INTEGER,
     roles_id: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'group_roles',
+    timestamps: true,
   });
   return group_roles;
 };

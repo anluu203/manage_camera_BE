@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     timeStamp: DataTypes.DATE,
     resultURL: DataTypes.STRING,
     cameraID: DataTypes.INTEGER,
-
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'image',
