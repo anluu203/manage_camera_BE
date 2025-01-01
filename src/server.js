@@ -1,4 +1,5 @@
 require("dotenv").config()
+
 import express from "express"
 import conFigViewEngine from "./config/viewEng";
 import initApiRouters from "./routes/api/api";
@@ -7,9 +8,16 @@ import cors from 'cors'
 import cookieParser from "cookie-parser";
 
 
+
 // import connection from "./config/connectDB";
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+const moduleAlias = require('module-alias')
+require('module-alias/register');
+moduleAlias.addAlias('@', __dirname + '/src/')
+
+console.log(require('module-alias')._aliases);
 
 
 //config view engine

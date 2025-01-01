@@ -3,6 +3,7 @@ import apiController from '../../controller/apiController'
 import apiCrud_User_Controll from '../../controller/apiCrud_User_Controll'
 import apiGroupController from '../../controller/apiGroupController'
 import {checkUserJWT, checkUserPermission} from "../../middleware/jwtAction"
+import apiRoomController from "../../controller/apiRoomController"
 const router = express.Router();
 
 /**
@@ -30,6 +31,13 @@ const router = express.Router();
     //api lấy dữ liệu của position table
     router.get("/group/read", apiGroupController.getGroup)
 
+    //api for list room
+    router.get("/room/read", apiRoomController.handleGetRooms)
+    router.post("/room/create", apiRoomController.handleCreateRoom )
+    router.put("/room/update", apiRoomController.handleUpdateRoom)
+    router.delete("/room/delete",apiRoomController.handleDeleteRoom)
+
+    
     return app.use("/api/v1/", router);
 
 }

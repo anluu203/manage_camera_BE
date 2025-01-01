@@ -151,6 +151,7 @@ const createUser = async (data) => {
 
 
 const updateUser = async (data) =>{
+    console.log(data)
     try {
         let user = await db.account.findOne({
             where:{id: data.id}
