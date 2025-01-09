@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       camera.hasMany(models.image);
-      camera.belongsTo(models.room);
+      camera.belongsTo(models.room, { foreignKey: 'roomID', as: 'room' });
+
     }
   }
   camera.init({

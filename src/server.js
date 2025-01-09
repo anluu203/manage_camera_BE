@@ -6,7 +6,7 @@ import initApiRouters from "./routes/api/api";
 import bodyParser from "body-parser";
 import cors from 'cors'
 import cookieParser from "cookie-parser";
-
+import path from "path";
 
 
 // import connection from "./config/connectDB";
@@ -17,8 +17,8 @@ const moduleAlias = require('module-alias')
 require('module-alias/register');
 moduleAlias.addAlias('@', __dirname + '/src/')
 
-console.log(require('module-alias')._aliases);
-
+//Dùng express.static để cho phép truy cập thư mục uploads công khai qua URL.
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 //config view engine
 conFigViewEngine(app);

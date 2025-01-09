@@ -4,8 +4,22 @@ import apiCrud_User_Controll from '../../controller/apiCrud_User_Controll'
 import apiGroupController from '../../controller/apiGroupController'
 import {checkUserJWT, checkUserPermission} from "../../middleware/jwtAction"
 import apiRoomController from "../../controller/apiRoomController"
+import apiCameraController from "../../controller/apiCameraController"
+import multer from "multer";
 const router = express.Router();
 
+
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, 'uploads');
+    },
+    filename: function(req, file, cb) {
+      cb(null,  Date.now() + '_' + file.originalname);
+    },
+  });
+  
+  var upload = multer({ storage: storage });
 /**
  *  express app
  */
@@ -37,6 +51,9 @@ const router = express.Router();
     router.put("/room/update", apiRoomController.handleUpdateRoom)
     router.delete("/room/delete",apiRoomController.handleDeleteRoom)
 
+    //api camera
+    router.post("/camera/create",upload.single('ipAddress'), apiCameraController.handleCreateCamera )
+    router.get("/camera/read", apiCameraController.handleGetCamera)
     
     return app.use("/api/v1/", router);
 
